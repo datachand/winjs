@@ -53,7 +53,7 @@ define([
             var EVENTS = {
                 beforeOpen: "beforeopen",
                 afterOpen: "afteropen",
-                beforeClose: "afterclose",
+                beforeClose: "beforeclose",
                 afterClose: "afterclose",
             }
 
