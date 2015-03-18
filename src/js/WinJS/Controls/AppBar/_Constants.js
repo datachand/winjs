@@ -18,7 +18,7 @@ define([
         menuLayoutClass: "win-menulayout",
         topClass: "win-top",
         bottomClass: "win-bottom",
-        showingClasClass : "win-appbar-opening",
+        showingClass : "win-appbar-opening",
         shownClass : "win-appbar-opened",
         hidingClass : "win-appbar-closing",
         hiddenClass: "win-appbar-closed",
