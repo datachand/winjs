@@ -180,7 +180,7 @@ define([
                     appBar = appBars[i].winControl;
                     if (appBar
                      && appBar.placement === appBarPlacement
-                     && !appBar.hidden
+                     && appBar.opened
                      && appBar._focusOnLastFocusableElement
                      && appBar._focusOnLastFocusableElement()) {
                         return true;
@@ -231,7 +231,7 @@ define([
                     appBar = appBars[i].winControl;
                     if (appBar
                      && appBar.placement === appBarPlacement
-                     && !appBar.hidden
+                     && appBar.opened
                      && appBar._focusOnFirstFocusableElement
                      && appBar._focusOnFirstFocusableElement()) {
                         return true;
@@ -277,7 +277,7 @@ define([
                 for (var i = 0; i < appBars.length; i++) {
                     appBar = appBars[i].winControl;
                     if (appBar
-                     && !appBar.hidden
+                     && appBar.opened
                      && appBar._updateFirstAndFinalDiv) {
                         appBar._updateFirstAndFinalDiv();
                     }
@@ -290,7 +290,7 @@ define([
                 for (var i = 0; i < appBars.length; i++) {
                     var appBarControl = appBars[i].winControl;
                     if (appBarControl && !appBarControl.sticky &&
-                        (!appBarControl.hidden || appBarControl._element.winAnimating === displayModeVisiblePositions.shown)) {
+                        (appBarControl.opened || appBarControl._element.winAnimating === displayModeVisiblePositions.shown)) {
                         return true;
                     }
                 }
@@ -410,7 +410,7 @@ define([
                     if (that._disposed) {
                         return;
                     }
-                    if (!that.hidden) {
+                    if (that.opened) {
                         ev.preventDefault();
                     }
                     commandsUpdatedBound();
@@ -474,7 +474,7 @@ define([
                             wasShown = true;
                         }
 
-                        if (!this.hidden) {
+                        if (this.opened) {
                             throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangePlacementWhenVisible", strings.cannotChangePlacementWhenVisible);
                         }
 
@@ -520,7 +520,7 @@ define([
                             wasShown = true;
                         }
 
-                        if (!this.hidden) {
+                        if (this.opened) {
                             throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangeLayoutWhenVisible", strings.cannotChangeLayoutWhenVisible);
                         }
 
@@ -576,7 +576,7 @@ define([
                         // Note: caller still has to call .show() if also want it shown.
 
                         // Show or hide the click eating div based on sticky value
-                        if (!this.hidden && this._element.style.visibility === "visible") {
+                        if (this.opened && this._element.style.visibility === "visible") {
                             // May have changed sticky state for keyboard navigation
                             _updateAllAppBarsFirstAndFinalDiv();
 
@@ -603,7 +603,7 @@ define([
                 commands: {
                     set: function AppBar_set_commands(commands) {
                         // Fail if trying to set when shown
-                        if (!this.hidden) {
+                        if (this.opened) {
                             throw new _ErrorFromName("WinJS.UI.AppBar.CannotChangeCommandsWhenVisible", _Resources._formatString(_Overlay._Overlay.commonstrings.cannotChangeCommandsWhenVisible, "AppBar"));
                         }
 
@@ -702,7 +702,7 @@ define([
                     },
                 },
 
-                /// <field type="Boolean" hidden="true" locid="WinJS.UI._AppBar.hidden" helpKeyword="WinJS.UI._AppBar.hidden">Read only, true if an AppBar is 'hidden'.</field>
+                /// <field type="Boolean" hidden="true" locid="WinJS.UI._AppBar.opened" helpKeyword="WinJS.UI._AppBar.opened">Read only, true if an AppBar is 'hidden'.</field>
                 opened: {
                     get: function () {
                         // Returns true if AppBar is not 'hidden'.
@@ -888,7 +888,7 @@ define([
                         var i;
                         for (i = 0; i < appBars.length; i++) {
                             var appBarControl = appBars[i].winControl;
-                            if (appBarControl && !appBarControl.hidden && (appBarControl !== this)) {
+                            if (appBarControl && appBarControl.opened && (appBarControl !== this)) {
                                 areOtherAppBars = true;
 
                                 if (!appBarControl.sticky) {
@@ -934,7 +934,7 @@ define([
                                 var appBar = appBars[i];
                                 if (appBar === this.element) {
                                     foundCurrentAppBar = true;
-                                } else if (foundCurrentAppBar && !appBar.winControl.hidden) {
+                                } else if (foundCurrentAppBar && appBar.winControl.opened) {
                                     appBar.winControl._keyboardInvoked = !!this._keyboardInvoked;
                                     appBar.winControl._setFocusToAppBar();
                                     break;
@@ -1382,7 +1382,7 @@ define([
 
                     this._needToHandleShowingKeyboard = true;
                     // If focus is in the appbar, don't cause scrolling.
-                    if (!this.hidden && this._element.contains(_Global.document.activeElement)) {
+                    if (this.opened && this._element.contains(_Global.document.activeElement)) {
                         event.ensuredFocusedElementInView = true;
                     }
 
