@@ -717,22 +717,22 @@ define([
                 /// <field type="Function" locid="WinJS.UI.AppBar.onbeforeopen" helpKeyword="WinJS.UI.AppBar.onbeforeopen">
                 /// Occurs immediately before the control is opened.
                 /// </field>
-                onbeforeshow: createEvent(EVENTS.beforeOpen),
+                onbeforeopen: createEvent(EVENTS.beforeOpen),
 
                 /// <field type="Function" locid="WinJS.UI.AppBar.onafteropen" helpKeyword="WinJS.UI.AppBar.onafteropen">
                 /// Occurs immediately after the control is opened.
                 /// </field>
-                onaftershow: createEvent(EVENTS.afterOpen),
+                onafteropen: createEvent(EVENTS.afterOpen),
 
                 /// <field type="Function" locid="WinJS.UI.AppBar.onbeforeclose" helpKeyword="WinJS.UI.AppBar.onbeforeclose">
                 /// Occurs immediately before the control is closed.
                 /// </field>
-                onbeforehide: createEvent(EVENTS.beforeClose),
+                onbeforeclose: createEvent(EVENTS.beforeClose),
 
                 /// <field type="Function" locid="WinJS.UI.AppBar.onafterclose" helpKeyword="WinJS.UI.AppBar.onafterclose">
                 /// Occurs immediately after the control is closed.
                 /// </field>
-                onafterhide: createEvent(EVENTS.afterClose),
+                onafterclose: createEvent(EVENTS.afterClose),
 
                 getCommandById: function (id) {
                     /// <signature helpKeyword="WinJS.UI.AppBar.getCommandById">

@@ -203,22 +203,22 @@ define([
                     }
                 },
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
+                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onbeforeshow" helpKeyword="WinJS.UI.SettingsFlyout.onbeforeshow">
                 /// Occurs immediately before the control is shown.
                 /// </field>
                 onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
+                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onaftershow" helpKeyword="WinJS.UI.SettingsFlyout.onaftershow">
                 /// Occurs immediately after the control is shown.
                 /// </field>
                 onaftershow: createEvent(_Overlay._Overlay.afterShow),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
+                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onbeforehide" helpKeyword="WinJS.UI.SettingsFlyout.onbeforehide">
                 /// Occurs immediately before the control is hidden.
                 /// </field>
                 onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
+                /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onafterhide" helpKeyword="WinJS.UI.SettingsFlyout.onafterhide">
                 /// Occurs immediately after the control is hidden.
                 /// </field>
                 onafterhide: createEvent(_Overlay._Overlay.onafterHide),

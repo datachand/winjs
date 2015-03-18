@@ -304,22 +304,22 @@ define([
                     }
                 },
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
+                /// <field type="Function" locid="WinJS.UI.Flyout.onbeforeshow" helpKeyword="WinJS.UI.Flyout.onbeforeshow">
                 /// Occurs immediately before the control is shown.
                 /// </field>
                 onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
+                /// <field type="Function" locid="WinJS.UI.Flyout.onaftershow" helpKeyword="WinJS.UI.Flyout.onaftershow">
                 /// Occurs immediately after the control is shown.
                 /// </field>
                 onaftershow: createEvent(_Overlay._Overlay.afterShow),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
+                /// <field type="Function" locid="WinJS.UI.Flyout.onbeforehide" helpKeyword="WinJS.UI.Flyout.onbeforehide">
                 /// Occurs immediately before the control is hidden.
                 /// </field>
                 onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
+                /// <field type="Function" locid="WinJS.UI.Flyout.onafterhide" helpKeyword="WinJS.UI.Flyout.onafterhide">
                 /// Occurs immediately after the control is hidden.
                 /// </field>
                 onafterhide: createEvent(_Overlay._Overlay.onafterHide),
@@ -386,7 +386,7 @@ define([
 
                             // _isAppBarOrChild may return a CED or sentinal
                             var appBar = _Overlay._Overlay._isAppBarOrChild(this._previousFocus);
-                            if (!appBar || (appBar.winControl && !appBar.winControl.opened && !appBar.winAnimating)) {
+                            if (!appBar || (appBar.winControl && appBar.winControl.opened && !appBar.winAnimating)) {
                                 // Don't move focus back to a appBar that is hidden
                                 // We cannot rely on element.style.visibility because it will be visible while animating
                                 var role = this._previousFocus.getAttribute("role");
