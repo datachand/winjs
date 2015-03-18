@@ -322,7 +322,7 @@ define([
                 /// <field type="Function" locid="WinJS.UI.Flyout.onafterhide" helpKeyword="WinJS.UI.Flyout.onafterhide">
                 /// Occurs immediately after the control is hidden.
                 /// </field>
-                onafterhide: createEvent(_Overlay._Overlay.onafterHide),
+                onafterhide: createEvent(_Overlay._Overlay.afterHide),
 
                 _dispose: function Flyout_dispose() {
                     _Dispose.disposeSubTree(this.element);

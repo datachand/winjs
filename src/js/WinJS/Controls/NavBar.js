@@ -23,7 +23,7 @@ define([
     _Base.Namespace.define("WinJS.UI", {
         /// <field>
         /// <summary locid="WinJS.UI.NavBar">
-        /// Displays navigation commands in a toolbar that the user can show or hide.
+        /// Displays navigation commands in a toolbar that the user can open or close.
         /// </summary>
         /// <compatibleWith platform="Windows" minVersion="8.1"/>
         /// </field>
@@ -34,10 +34,10 @@ define([
         /// <div data-win-control="WinJS.UI.NavBarCommand" data-win-options="{location:'/pages/home/home.html',label:'Home',icon:WinJS.UI.AppBarIcon.home}"></div>
         /// </div>
         /// </div>]]></htmlSnippet>
-        /// <event name="beforeshow" locid="WinJS.UI.NavBar_e:beforeshow">Raised just before showing the NavBar.</event>
-        /// <event name="aftershow" locid="WinJS.UI.NavBar_e:aftershow">Raised immediately after an NavBar is fully shown.</event>
-        /// <event name="beforehide" locid="WinJS.UI.NavBar_e:beforehide">Raised just before hiding the  NavBar.</event>
-        /// <event name="afterhide" locid="WinJS.UI.NavBar_e:afterhide">Raised immediately after the NavBar is fully hidden.</event>
+        /// <event name="beforeopen" locid="WinJS.UI.NavBar_e:beforeopen">Raised just before opening the NavBar.</event>
+        /// <event name="aftershow" locid="WinJS.UI.NavBar_e:aftershow">Raised immediately after an NavBar is fully opened.</event>
+        /// <event name="beforeclose" locid="WinJS.UI.NavBar_e:beforeclose">Raised just before closing the  NavBar.</event>
+        /// <event name="afterclose" locid="WinJS.UI.NavBar_e:afterclose">Raised immediately after the NavBar is fully closed.</event>
         /// <event name="childrenprocessed" locid="WinJS.UI.NavBar_e:childrenprocessed">Fired when children of NavBar control have been processed from a WinJS.UI.processAll call.</event>
         /// <part name="navbar" class="win-navbar" locid="WinJS.UI.NavBar_part:navbar">Styles the entire NavBar.</part>
         /// <resource type="javascript" src="//$(TARGET_DESTINATION)/js/WinJS.js" shared="true" />
@@ -76,7 +76,7 @@ define([
 
                 AppBar.AppBar.call(this, element, options);
 
-                this._element.addEventListener("beforeshow", this._handleBeforeShow.bind(this));
+                this._element.addEventListener("beforeopen", this._handleBeforeShow.bind(this));
 
                 _ElementUtilities.addClass(this.element, NavBar._ClassName.navbar);
 

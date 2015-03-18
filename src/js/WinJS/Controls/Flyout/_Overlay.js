@@ -351,30 +351,10 @@ define([
                     // To be overridden by subclasses
                 },
 
-                //show: function () {
-                //    /// <signature helpKeyword="WinJS.UI._Overlay.show">
-                //    /// <summary locid="WinJS.UI._Overlay.show">
-                //    /// Shows the Overlay, if hidden, regardless of other state
-                //    /// </summary>
-                //    /// </signature>
-                //    // call private show to distinguish it from public version
-                //    this._show();
-                //},
-
                 _show: function _Overlay_show() {
                     // We call our base _baseShow because AppBar may need to override show
                     this._baseShow();
                 },
-
-                //hide: function () {
-                //    /// <signature helpKeyword="WinJS.UI._Overlay.hide">
-                //    /// <summary locid="WinJS.UI._Overlay.hide">
-                //    /// Hides the Overlay, if visible, regardless of other state
-                //    /// </summary>
-                //    /// </signature>
-                //    // call private hide to distinguish it from public version
-                //    this._hide();
-                //},
 
                 _hide: function _Overlay_hide() {
                     // We call our base _baseHide because AppBar may need to override hide

@@ -48,6 +48,8 @@ define([
         SettingsFlyout: _Base.Namespace._lazy(function () {
             var Key = _ElementUtilities.Key;
 
+            var createEvent = _Events._createEventProperty;
+
             var settingsPageIsFocusedOnce;
 
             // Constants for width
@@ -221,7 +223,7 @@ define([
                 /// <field type="Function" locid="WinJS.UI.SettingsFlyout.onafterhide" helpKeyword="WinJS.UI.SettingsFlyout.onafterhide">
                 /// Occurs immediately after the control is hidden.
                 /// </field>
-                onafterhide: createEvent(_Overlay._Overlay.onafterHide),
+                onafterhide: createEvent(_Overlay._Overlay.afterHide),
 
                 show: function () {
                     /// <signature helpKeyword="WinJS.UI.SettingsFlyout.show">
