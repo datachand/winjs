@@ -66,19 +66,19 @@ module CorsicaTests {
 
                 asyncOpen(appBar).then(function () {
                     LiveUnit.Assert.isTrue(appBar.element.contains(document.activeElement), "Focus should initially be within the AppBar");
-                    LiveUnit.Assert.isFalse(appBar.hidden, "AppBar should initially be visible");
+                    LiveUnit.Assert.isTrue(appBar.opened, "AppBar should initially be visible");
 
                     return Helper.waitForFocus(menu.element, function () { menuButton.click() })
                 }).then(function () {
                         LiveUnit.Assert.isTrue(menu.element.contains(document.activeElement), "After opening the menu, focus should be within it");
                         LiveUnit.Assert.isFalse(menu.hidden, "Menu should be visible");
-                        LiveUnit.Assert.isFalse(appBar.hidden, "AppBar should have remained visible when opening a menu within it");
+                        LiveUnit.Assert.isTrue(appBar.opened, "AppBar should have remained visible when opening a menu within it");
 
                         return Helper.focus(menuItemB);
                     }).then(function () {
                         LiveUnit.Assert.areEqual(menuItemB, document.activeElement, "MenuB should have focus");
                         LiveUnit.Assert.isFalse(menu.hidden, "Menu should have remained visible");
-                        LiveUnit.Assert.isFalse(appBar.hidden, "AppBar should have remained visible when moving focus within the menu");
+                        LiveUnit.Assert.isTrue(appBar.opened, "AppBar should have remained visible when moving focus within the menu");
 
                         complete();
                     });
