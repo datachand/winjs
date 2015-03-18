@@ -6,6 +6,7 @@ define([
     '../Core/_Base',
     '../Core/_BaseUtils',
     '../Core/_ErrorFromName',
+    '../Core/_Events',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
     '../Animations',
@@ -17,7 +18,7 @@ define([
     '../Utilities/_Hoverable',
     './AppBar/_Constants',
     './Flyout/_Overlay'
-    ], function settingsFlyoutInit(_Global,_WinRT, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, Animations, Pages, Promise, _Dispose, _ElementUtilities, _ElementListUtilities, _Hoverable, _Constants, _Overlay) {
+    ], function settingsFlyoutInit(_Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Events, _Resources, _WriteProfilerMark, Animations, Pages, Promise, _Dispose, _ElementUtilities, _ElementListUtilities, _Hoverable, _Constants, _Overlay) {
     "use strict";
 
     _Base.Namespace.define("WinJS.UI", {
@@ -201,6 +202,26 @@ define([
                         this._settingsCommandId = value;
                     }
                 },
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
+                /// Occurs immediately before the control is shown.
+                /// </field>
+                onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
+                /// Occurs immediately after the control is shown.
+                /// </field>
+                onaftershow: createEvent(_Overlay._Overlay.afterShow),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
+                /// Occurs immediately before the control is hidden.
+                /// </field>
+                onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
+                /// Occurs immediately after the control is hidden.
+                /// </field>
+                onafterhide: createEvent(_Overlay._Overlay.onafterHide),
 
                 show: function () {
                     /// <signature helpKeyword="WinJS.UI.SettingsFlyout.show">

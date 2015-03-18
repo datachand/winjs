@@ -65,7 +65,7 @@ module WinJSTests {
                         navbar = document.querySelector(".win-navbar").winControl;
 
                     LiveUnit.Assert.areEqual(navbar.element, element, "Unexpected winControl");
-                    return utils.waitForEvent(navbar, "aftershow", navbar.show.bind(navbar));
+                    return utils.waitForEvent(navbar, "afteropen", navbar.show.bind(navbar));
                 }).
                 then(function () {
                     LiveUnit.Assert.isTrue(eventFired);
@@ -124,7 +124,7 @@ module WinJSTests {
             var element = document.getElementById("navbarDiv"),
                 navBar = <WinJS.UI.PrivateNavBar>new WinJS.UI.NavBar(element);
 
-            utils.waitForEvent(navBar, "aftershow", navBar.show.bind(navBar)).
+            utils.waitForEvent(navBar, "afteropen", navBar.open.bind(navBar)).
                 then(function () {
                     LiveUnit.Assert.isFalse(navBar._disposed);
                     navBar.dispose();

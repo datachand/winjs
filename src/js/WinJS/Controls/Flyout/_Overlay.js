@@ -190,14 +190,6 @@ define([
                 },
             });
 
-            var createEvent = _Events._createEventProperty;
-
-            // Event Names
-            var BEFORESHOW = "beforeshow";
-            var AFTERSHOW = "aftershow";
-            var BEFOREHIDE = "beforehide";
-            var AFTERHIDE = "afterhide";
-
             // Helper to get DOM elements from input single object or array or IDs/toolkit/dom elements
             function _resolveElements(elements) {
                 // No input is just an empty array
@@ -341,26 +333,6 @@ define([
                     }
                 },
 
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
-                /// Occurs immediately before the control is shown.
-                /// </field>
-                onbeforeshow: createEvent(BEFORESHOW),
-
-                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
-                /// Occurs immediately after the control is shown.
-                /// </field>
-                onaftershow: createEvent(AFTERSHOW),
-
-                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
-                /// Occurs immediately before the control is hidden.
-                /// </field>
-                onbeforehide: createEvent(BEFOREHIDE),
-
-                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
-                /// Occurs immediately after the control is hidden.
-                /// </field>
-                onafterhide: createEvent(AFTERHIDE),
-
                 dispose: function () {
                     /// <signature helpKeyword="WinJS.UI.Overlay.dispose">
                     /// <summary locid="WinJS.UI.Overlay.dispose">
@@ -379,30 +351,30 @@ define([
                     // To be overridden by subclasses
                 },
 
-                show: function () {
-                    /// <signature helpKeyword="WinJS.UI._Overlay.show">
-                    /// <summary locid="WinJS.UI._Overlay.show">
-                    /// Shows the Overlay, if hidden, regardless of other state
-                    /// </summary>
-                    /// </signature>
-                    // call private show to distinguish it from public version
-                    this._show();
-                },
+                //show: function () {
+                //    /// <signature helpKeyword="WinJS.UI._Overlay.show">
+                //    /// <summary locid="WinJS.UI._Overlay.show">
+                //    /// Shows the Overlay, if hidden, regardless of other state
+                //    /// </summary>
+                //    /// </signature>
+                //    // call private show to distinguish it from public version
+                //    this._show();
+                //},
 
                 _show: function _Overlay_show() {
                     // We call our base _baseShow because AppBar may need to override show
                     this._baseShow();
                 },
 
-                hide: function () {
-                    /// <signature helpKeyword="WinJS.UI._Overlay.hide">
-                    /// <summary locid="WinJS.UI._Overlay.hide">
-                    /// Hides the Overlay, if visible, regardless of other state
-                    /// </summary>
-                    /// </signature>
-                    // call private hide to distinguish it from public version
-                    this._hide();
-                },
+                //hide: function () {
+                //    /// <signature helpKeyword="WinJS.UI._Overlay.hide">
+                //    /// <summary locid="WinJS.UI._Overlay.hide">
+                //    /// Hides the Overlay, if visible, regardless of other state
+                //    /// </summary>
+                //    /// </signature>
+                //    // call private hide to distinguish it from public version
+                //    this._hide();
+                //},
 
                 _hide: function _Overlay_hide() {
                     // We call our base _baseHide because AppBar may need to override hide
@@ -1624,10 +1596,10 @@ define([
                 _scrollTimeout: 150,
 
                 // Events
-                beforeShow: BEFORESHOW,
-                beforeHide: BEFOREHIDE,
-                afterShow: AFTERSHOW,
-                afterHide: AFTERHIDE,
+                beforeShow: "beforeshow",
+                beforeHide: "beforehide",
+                afterShow: "aftershow",
+                afterHide: "afterhide",
 
                 commonstrings: {
                     get cannotChangeCommandsWhenVisible() { return "Invalid argument: You must call hide() before changing {0} commands"; },

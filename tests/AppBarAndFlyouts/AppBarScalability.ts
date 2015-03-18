@@ -179,7 +179,7 @@ module CorsicaTests {
             var topAppBar = new WinJS.UI.AppBar(topAppBarElem, { sticky: true, placement: 'top', layout:'commands' });
             LiveUnit.LoggingCore.logComment("Top AppBar Initialized with commands");
 
-            topAppBar.show();
+            topAppBar.open();
 
             LiveUnit.LoggingCore.logComment("Verify padding for full-size AppBar with InvokeButton");
             topAppBar.closedDisplayMode = 'minimal';
@@ -249,7 +249,7 @@ module CorsicaTests {
                         topAppBar.hideCommands([cmd]);
                     }
                 };
-                topAppBar.show();
+                topAppBar.open();
             }
 
             function testShowCommandsAfterHide() {
@@ -268,7 +268,7 @@ module CorsicaTests {
                         appBarVisibleContentWidth += contentDivWidth;
                     }
                 }
-                topAppBar.show();
+                topAppBar.open();
             }
 
             function testShowOnlyCommandsAfterHide() {
@@ -286,7 +286,7 @@ module CorsicaTests {
                     appBarVisibleSeparatorCount = randomCommands.visibleSepCount;
                     appBarVisibleContentWidth = randomCommands.visibleContentWidth;
                 }
-                topAppBar.show();
+                topAppBar.open();
             }
 
             function testComplete() {
@@ -300,7 +300,7 @@ module CorsicaTests {
                 // Verify that AppBar scalability tracks calls to the showCommands, hideCommands,
                 // and showOnlyCommands api's while closed, and sizes the buttons correctly.
                 topAppBar.addEventListener("afterhide", testOrder[nextTestIndex], false);
-                topAppBar.hide();
+                topAppBar.close();
             }
 
             // our 'beforeshow' event listener will use these to set the correct 'afterhide' listener.
@@ -349,7 +349,7 @@ module CorsicaTests {
 
             // Need to force the AppBar to measure the contentCommand we added. The AppBar does this lazily upon construction or whenever it is opened.
             // Open the AppBar to run our 'beforeshow' handler and verify that the commands set in the constructor are scaled correctly.
-            topAppBar.show();
+            topAppBar.open();
 
 
         };
@@ -375,7 +375,7 @@ module CorsicaTests {
                         cmd.hidden = true;
                     }
                 }
-                topAppBar.show();
+                topAppBar.open();
             }
 
             function testSettingHiddenFalse() {
@@ -394,7 +394,7 @@ module CorsicaTests {
                     }
                     cmd.hidden = false;
                 }
-                topAppBar.show();
+                topAppBar.open();
             }
 
             function testComplete() {
@@ -407,7 +407,7 @@ module CorsicaTests {
                 verifyCommandSizes(topAppBarElem, appBarVisibleCommandCount, appBarVisibleSeparatorCount, appBarVisibleContentWidth);
 
                 topAppBar.addEventListener("afterhide", testOrder[nextTestIndex], false);
-                topAppBar.hide();
+                topAppBar.close();
             }
 
         // our 'beforeshow' event listener will use these to set the correct 'afterhide' listener.
@@ -454,7 +454,7 @@ module CorsicaTests {
 
             // Need to force the AppBar to measure the contentCommand we added. The AppBar does this lazily upon construction or whenever it is opened.
             // Open the AppBar to run our 'beforeshow' handler and verify that the commands set in the constructor are scaled correctly.
-            topAppBar.show();
+            topAppBar.open();
         };
 
 
@@ -490,7 +490,7 @@ module CorsicaTests {
             LiveUnit.LoggingCore.logComment("Top AppBarCommands created");
             var topAppBar = <WinJS.UI.PrivateAppBar> new WinJS.UI.AppBar(topAppBarElem, { sticky: true, placement: 'top', commands: commands, closedDisplayMode: 'none', layout: 'commands' });
             LiveUnit.LoggingCore.logComment("Top AppBar Initialized with commands");
-            topAppBar.show();
+            topAppBar.open();
 
             LiveUnit.LoggingCore.logComment("Hiding Button1 to make room for the other commands to grow full size.");
 

@@ -3613,7 +3613,7 @@ declare module WinJS.UI {
     //#region Objects
 
     /**
-     * Represents an application toolbar for displaying commands.
+     * Represents an application pane for displaying commands.
     **/
     class AppBar {
         //#region Constructors
@@ -3631,28 +3631,28 @@ declare module WinJS.UI {
         //#region Events
 
         /**
-         * Occurs immediately after the AppBar is hidden.
+         * Occurs immediately after the AppBar is closed.
          * @param eventInfo An object that contains information about the event.
         **/
-        onafterhide(eventInfo: Event): void;
+        onafterclose(eventInfo: Event): void;
 
         /**
-         * Occurs after the AppBar is shown.
+         * Occurs after the AppBar is opened.
          * @param eventInfo An object that contains information about the event.
         **/
-        onaftershow(eventInfo: Event): void;
+        onafteropen(eventInfo: Event): void;
 
         /**
-         * Occurs before the AppBar is hidden.
+         * Occurs before the AppBar is closed.
          * @param eventInfo An object that contains information about the event.
         **/
-        onbeforehide(eventInfo: Event): void;
+        onbeforeclose(eventInfo: Event): void;
 
         /**
-         * Occurs before a hidden AppBar is shown.
+         * Occurs before a closed AppBar is opened.
          * @param eventInfo An object that contains information about the event.
         **/
-        onbeforeshow(eventInfo: Event): void;
+        onbeforeopen(eventInfo: Event): void;
 
         //#endregion Events
 
@@ -3660,7 +3660,7 @@ declare module WinJS.UI {
 
         /**
          * Registers an event handler for the specified event.
-         * @param type The event type to register. It must be beforeshow, beforehide, aftershow, or afterhide.
+         * @param type The event type to register. It must be beforeopen, beforeclose, afteropen, or afterclose.
          * @param listener The event handler function to associate with the event.
          * @param useCapture Set to true to register the event handler for the capturing phase; otherwise, set to false to register the event handler for the bubbling phase.
         **/
@@ -3687,9 +3687,9 @@ declare module WinJS.UI {
         getCommandById(id: string): AppBarCommand;
 
         /**
-         * Hides the AppBar.
+         * closes the AppBar.
         **/
-        hide(): void;
+        close(): void;
 
         /**
          * Hides the specified commands of the AppBar.
@@ -3700,26 +3700,26 @@ declare module WinJS.UI {
 
         /**
          * Removes an event handler that the addEventListener method registered.
-         * @param type The event type to unregister. It must be beforeshow, beforehide, aftershow, or afterhide.
+         * @param type The event type to unregister. It must be beforeopen, beforeclose, afteropen, or afterclose.
          * @param listener The event handler function to remove.
          * @param useCapture Set to true to remove the capturing phase event handler; set to false to remove the bubbling phase event handler.
         **/
         removeEventListener(type: string, listener: Function, useCapture?: boolean): void;
 
         /**
-         * Shows the AppBar if it is not disabled.
+         * Opens the AppBar if it is not disabled.
         **/
-        show(): void;
+        open(): void;
 
         /**
-         * Shows the specified commands of the AppBar.
+         * Opens the specified commands of the AppBar.
          * @param commands The commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
-         * @param immediate The parameter immediate is not supported and may be altered or unavailable in the future. true to show the commands immediately, without animating them; otherwise, false.
+         * @param immediate The parameter immediate is not supported and may be altered or unavailable in the future. true to open the commands immediately, without animating them; otherwise, false.
         **/
         showCommands(commands: any[], immediate?: boolean): void;
 
         /**
-         * Shows the specified commands of the AppBar while hiding all other commands.
+         * Opens the specified commands of the AppBar while hiding all other commands.
          * @param commands The commands to show. The array elements may be AppBarCommand objects, or the string identifiers (IDs) of commands.
          * @param immediate The parameter immediate is not supported and may be altered or unavailable in the future. true to show the specified commands (and hide the others) immediately, without animating them; otherwise, false.
         **/
@@ -3730,7 +3730,7 @@ declare module WinJS.UI {
         //#region Properties
 
         /**
-         * Gets/Sets how AppBar will display itself while hidden. Values are "none" and "minimal".
+         * Gets/Sets how AppBar will display itself while closed. Values are "none" and "minimal".
         **/
         closedDisplayMode: string;
 
@@ -3750,9 +3750,9 @@ declare module WinJS.UI {
         element: HTMLElement;
 
         /**
-         * Gets a value that indicates whether the AppBar is hidden or in the process of becoming hidden.
+         * Gets a value that indicates whether the AppBar is opened or in the process of becoming opened.
         **/
-        hidden: boolean;
+        opened: boolean;
 
         /**
          * Gets or sets the layout of the app bar contents.
@@ -3806,7 +3806,7 @@ declare module WinJS.UI {
 
         /**
          * Removes an event handler that the addEventListener method registered.
-         * @param type The event type to unregister. It must be beforeshow, beforehide, aftershow, or afterhide.
+         * @param type The event type to unregister.
          * @param listener The event handler function to remove.
          * @param useCapture Set to true to remove the capturing phase event handler; set to false to remove the bubbling phase event handler.
         **/
@@ -6304,7 +6304,7 @@ declare module WinJS.UI {
     }
 
     /**
-     * Displays navigation commands in a toolbar that the user can show or hide.
+     * Displays navigation commands in a pane that that can be opened or closed.
     **/
     class NavBar {
         //#region Constructors
@@ -6322,28 +6322,28 @@ declare module WinJS.UI {
         //#region Events
 
         /**
-         * Occurs immediately after the NavBar is hidden.
+         * Occurs immediately after the NavBar is closed.
          * @param eventInfo An object that contains information about the event.
         **/
-        onafterhide(eventInfo: Event): void;
+        onafterclose(eventInfo: Event): void;
 
         /**
-         * Raised after the NavBar is shown.
+         * Raised after the NavBar is opened.
          * @param eventInfo An object that contains information about the event.
         **/
-        onaftershow(eventInfo: Event): void;
+        onafteropen(eventInfo: Event): void;
 
         /**
-         * Raised just before the NavBar is hidden.
+         * Raised just before the NavBar is closed.
          * @param eventInfo An object that contains information about the event.
         **/
-        onbeforehide(eventInfo: Event): void;
+        onbeforeclose(eventInfo: Event): void;
 
         /**
-         * Occurs before a hidden NavBar is shown.
+         * Occurs before a closed NavBar is opened.
          * @param eventInfo An object that contains information about the event.
         **/
-        onbeforeshow(eventInfo: Event): void;
+        onbeforeopen(eventInfo: Event): void;
 
         /**
          * Occurs after the NavBar has finished processing its child elements.
@@ -6377,9 +6377,9 @@ declare module WinJS.UI {
         dispose(): void;
 
         /**
-         * Hides the NavBar.
+         * Closes the NavBar.
         **/
-        hide(): void;
+        close(): void;
 
         /**
          * Hides the specified commands of the NavBar.
@@ -6397,9 +6397,9 @@ declare module WinJS.UI {
         removeEventListener(eventName: string, eventCallback: Function, useCapture?: boolean): void;
 
         /**
-         * Shows the NavBar if it is not disabled.
+         * Opens the NavBar if it is not disabled.
         **/
-        show(): void;
+        open(): void;
 
         /**
          * Shows the specified commands of the NavBar.
@@ -6435,9 +6435,9 @@ declare module WinJS.UI {
         element: HTMLElement;
 
         /**
-         * Gets a value that indicates whether the NavBar is hidden or in the process of becoming hidden.
+         * Gets a value that indicates whether the NavBar is opened or in the process of becoming opened.
         **/
-        hidden: boolean;
+        opened: boolean;
 
         /**
          * This API supports the WinJS infrastructure and is not intended to be used directly from your code.

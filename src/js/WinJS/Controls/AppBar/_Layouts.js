@@ -322,7 +322,7 @@ define([
                     if (!this._disposed) {
                         // Check for horizontal window resizes.
                         this._appBarTotalKnownWidth = null;
-                        if (!this.appBarEl.winControl.hidden) {
+                        if (this.appBarEl.winControl.opened) {
                             this.scale();
                         }
                     }

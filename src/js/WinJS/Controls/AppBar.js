@@ -8,6 +8,7 @@ define([
     '../Core/_Base',
     '../Core/_BaseUtils',
     '../Core/_ErrorFromName',
+    '../Core/_Events',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
     '../Animations',
@@ -24,7 +25,7 @@ define([
     './AppBar/_Icon',
     './Flyout/_Overlay',
     '../Application'
-], function appBarInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, Animations, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Hoverable, _KeyboardBehavior, _Constants, _Layouts, _Command, _Icon, _Overlay, Application) {
+], function appBarInit(exports, _Global, _WinRT, _Base, _BaseUtils, _ErrorFromName, _Events, _Resources, _WriteProfilerMark, Animations, Promise, Scheduler, _Control, _Dispose, _ElementUtilities, _Hoverable, _KeyboardBehavior, _Constants, _Layouts, _Command, _Icon, _Overlay, Application) {
     "use strict";
 
     _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
@@ -38,16 +39,25 @@ define([
         /// <htmlSnippet supportsContent="true"><![CDATA[<div data-win-control="WinJS.UI.AppBar">
         /// <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'',label:'example',icon:'back',type:'button',onclick:null,section:'primary'}"></button>
         /// </div>]]></htmlSnippet>
-        /// <event name="beforeshow" locid="WinJS.UI.AppBar_e:beforeshow">Raised just before showing the AppBar.</event>
-        /// <event name="aftershow" locid="WinJS.UI.AppBar_e:aftershow">Raised immediately after the AppBar is fully shown.</event>
-        /// <event name="beforehide" locid="WinJS.UI.AppBar_e:beforehide">Raised just before hiding the AppBar.</event>
-        /// <event name="afterhide" locid="WinJS.UI.AppBar_e:afterhide">Raised immediately after the AppBar is fully hidden.</event>
+        /// <event name="beforeopen" locid="WinJS.UI.AppBar_e:beforeopen">Raised just before showing the AppBar.</event>
+        /// <event name="afteropen" locid="WinJS.UI.AppBar_e:afteropen">Raised immediately after the AppBar is fully shown.</event>
+        /// <event name="beforeclose" locid="WinJS.UI.AppBar_e:beforeclose">Raised just before hiding the AppBar.</event>
+        /// <event name="afterclose" locid="WinJS.UI.AppBar_e:afterclose">Raised immediately after the AppBar is fully hidden.</event>
         /// <part name="appbar" class="win-commandlayout" locid="WinJS.UI.AppBar_part:appbar">The AppBar control itself.</part>
         /// <part name="appBarCustom" class="win-appbar" locid="WinJS.UI.AppBar_part:appBarCustom">Style for a custom layout AppBar.</part>
         /// <resource type="javascript" src="//$(TARGET_DESTINATION)/js/WinJS.js" shared="true" />
         /// <resource type="css" src="//$(TARGET_DESTINATION)/css/ui-dark.css" shared="true" />
         AppBar: _Base.Namespace._lazy(function () {
             var Key = _ElementUtilities.Key;
+
+            var EVENTS = {
+                beforeOpen: "beforeopen",
+                afterOpen: "afteropen",
+                beforeClose: "afterclose",
+                afterClose: "afterclose",
+            }
+
+            var createEvent = _Events._createEventProperty;
 
             // Enum of known constant pixel values for display modes.
             var knownVisibleHeights = {
@@ -693,16 +703,36 @@ define([
                 },
 
                 /// <field type="Boolean" hidden="true" locid="WinJS.UI._AppBar.hidden" helpKeyword="WinJS.UI._AppBar.hidden">Read only, true if an AppBar is 'hidden'.</field>
-                hidden: {
+                opened: {
                     get: function () {
-                        // Returns true if AppBar is 'hidden'.
-                        return _ElementUtilities.hasClass(this._element, _Constants.hiddenClass) ||
-                            _ElementUtilities.hasClass(this._element, _Constants.hidingClass) ||
-                            this._doNext === displayModeVisiblePositions.minimal ||
-                            this._doNext === displayModeVisiblePositions.compact ||
-                            this._doNext === displayModeVisiblePositions.none;
+                        // Returns true if AppBar is not 'hidden'.
+                        return !_ElementUtilities.hasClass(this._element, _Constants.hiddenClass) &&
+                            !_ElementUtilities.hasClass(this._element, _Constants.hidingClass) &&
+                            this._doNext !== displayModeVisiblePositions.minimal &&
+                            this._doNext !== displayModeVisiblePositions.compact &&
+                            this._doNext !== displayModeVisiblePositions.none;
                     },
                 },
+
+                /// <field type="Function" locid="WinJS.UI.AppBar.onbeforeopen" helpKeyword="WinJS.UI.AppBar.onbeforeopen">
+                /// Occurs immediately before the control is opened.
+                /// </field>
+                onbeforeshow: createEvent(EVENTS.beforeOpen),
+
+                /// <field type="Function" locid="WinJS.UI.AppBar.onafteropen" helpKeyword="WinJS.UI.AppBar.onafteropen">
+                /// Occurs immediately after the control is opened.
+                /// </field>
+                onaftershow: createEvent(EVENTS.afterOpen),
+
+                /// <field type="Function" locid="WinJS.UI.AppBar.onbeforeclose" helpKeyword="WinJS.UI.AppBar.onbeforeclose">
+                /// Occurs immediately before the control is closed.
+                /// </field>
+                onbeforehide: createEvent(EVENTS.beforeClose),
+
+                /// <field type="Function" locid="WinJS.UI.AppBar.onafterclose" helpKeyword="WinJS.UI.AppBar.onafterclose">
+                /// Occurs immediately after the control is closed.
+                /// </field>
+                onafterhide: createEvent(EVENTS.afterClose),
 
                 getCommandById: function (id) {
                     /// <signature helpKeyword="WinJS.UI.AppBar.getCommandById">
@@ -774,10 +804,10 @@ define([
                     this._layout.showOnlyCommands(commands);
                 },
 
-                show: function () {
-                    /// <signature helpKeyword="WinJS.UI.AppBar.show">
-                    /// <summary locid="WinJS.UI.AppBar.show">
-                    /// Shows the AppBar, if hidden and not disabled, regardless of other state.
+                open: function () {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.open">
+                    /// <summary locid="WinJS.UI.AppBar.open">
+                    /// Opens the AppBar, if closed and not disabled, regardless of other state.
                     /// </summary>
                     /// </signature>
                     // Just wrap the private one, turning off keyboard invoked flag
@@ -825,10 +855,10 @@ define([
                     }
                 },
 
-                hide: function () {
-                    /// <signature helpKeyword="WinJS.UI.AppBar.hide">
-                    /// <summary locid="WinJS.UI.AppBar.hide">
-                    /// Hides the AppBar.
+                close: function () {
+                    /// <signature helpKeyword="WinJS.UI.AppBar.close">
+                    /// <summary locid="WinJS.UI.AppBar.close">
+                    /// Closes the AppBar.
                     /// </summary>
                     /// </signature>
                     // Just wrap the private one
@@ -1130,7 +1160,7 @@ define([
                     // Each overlay tracks the size of the <HTML> element for triggering light-dismiss in the window resize handler.
                     this._cachedDocumentSize = this._cachedDocumentSize || _Overlay._Overlay._sizeOfDocument();
 
-                    // In case their event 'beforeshow' event listener is going to manipulate commands,
+                    // In case their event 'beforeopen' event listener is going to manipulate commands,
                     // first see if there are any queued command animations we can handle while we're still hidden.
                     if (this._queuedCommandAnimation) {
                         this._showAndHideFast(this._queuedToShow, this._queuedToHide);
@@ -1148,16 +1178,16 @@ define([
                     _ElementUtilities.removeClass(this._element, _Constants.hiddenClass);
                     _ElementUtilities.addClass(this._element, _Constants.showingClass);
 
-                    // Send our "beforeShow" event
-                    this._sendEvent(_Overlay._Overlay.beforeShow);
+                    // Send our "beforeopen" event
+                    this._sendEvent(EVENTS.beforeOpen);
                 },
 
                 _afterShow: function AppBar_afterShow() {
                     _ElementUtilities.removeClass(this._element, _Constants.showingClass);
                     _ElementUtilities.addClass(this._element, _Constants.shownClass);
 
-                    // Send our "afterShow" event
-                    this._sendEvent(_Overlay._Overlay.afterShow);
+                    // Send our "afteropen" event
+                    this._sendEvent(EVENTS.afterOpen);
                     this._writeProfilerMark("show,StopTM");
                 },
 
@@ -1166,13 +1196,13 @@ define([
                     _ElementUtilities.removeClass(this._element, _Constants.shownClass);
                     _ElementUtilities.addClass(this._element, _Constants.hidingClass);
 
-                    // Send our "beforeHide" event
-                    this._sendEvent(_Overlay._Overlay.beforeHide);
+                    // Send our "beforeclose" event
+                    this._sendEvent(EVENTS.beforeClose);
                 },
 
                 _afterHide: function AppBar_afterHide() {
 
-                    // In case their 'afterhide' event handler is going to manipulate commands,
+                    // In case their 'afterclose' event handler is going to manipulate commands,
                     // first see if there are any queued command animations we can handle now we're hidden.
                     if (this._queuedCommandAnimation) {
                         this._showAndHideFast(this._queuedToShow, this._queuedToHide);
@@ -1183,8 +1213,8 @@ define([
                     _ElementUtilities.removeClass(this._element, _Constants.hidingClass);
                     _ElementUtilities.addClass(this._element, _Constants.hiddenClass);
 
-                    // Send our "afterHide" event
-                    this._sendEvent(_Overlay._Overlay.afterHide);
+                    // Send our "afterclose" event
+                    this._sendEvent(EVENTS.afterClose);
                     this._writeProfilerMark("hide,StopTM");
                 },
 
@@ -1589,6 +1619,8 @@ define([
                 }
             }, {
                 // Statics
+                Events: EVENTS,
+
                 _appBarsSynchronizationPromise: Promise.as(),
 
                 // Returns true if the element or what had focus before the element (if a Flyout) is either:

@@ -6,6 +6,7 @@ define([
     '../Core/_Base',
     '../Core/_BaseUtils',
     '../Core/_ErrorFromName',
+    '../Core/_Events',
     '../Core/_Log',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
@@ -16,7 +17,7 @@ define([
     '../Utilities/_Hoverable',
     './AppBar/_Constants',
     './Flyout/_Overlay'
-], function flyoutInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Log, _Resources, _WriteProfilerMark, Animations, _Signal, _Dispose, _ElementUtilities, _Hoverable, _Constants, _Overlay) {
+], function flyoutInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Events, _Log, _Resources, _WriteProfilerMark, Animations, _Signal, _Dispose, _ElementUtilities, _Hoverable, _Constants, _Overlay) {
     "use strict";
 
     _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
@@ -52,6 +53,7 @@ define([
                 get badAlignment() { return "Invalid argument: Flyout alignment should be 'center' (default), 'left', or 'right'."; }
             };
 
+            var createEvent = _Events._createEventProperty;
 
             // Singleton class for managing cascading flyouts
             var _CascadeManager = _Base.Class.define(function _CascadeManager_ctor() {
@@ -301,6 +303,26 @@ define([
                         this._alignment = value;
                     }
                 },
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforeshow" helpKeyword="WinJS.UI._Overlay.onbeforeshow">
+                /// Occurs immediately before the control is shown.
+                /// </field>
+                onbeforeshow: createEvent(_Overlay._Overlay.beforeShow),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onaftershow" helpKeyword="WinJS.UI._Overlay.onaftershow">
+                /// Occurs immediately after the control is shown.
+                /// </field>
+                onaftershow: createEvent(_Overlay._Overlay.afterShow),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onbeforehide" helpKeyword="WinJS.UI._Overlay.onbeforehide">
+                /// Occurs immediately before the control is hidden.
+                /// </field>
+                onbeforehide: createEvent(_Overlay._Overlay.beforeHide),
+
+                /// <field type="Function" locid="WinJS.UI._Overlay.onafterhide" helpKeyword="WinJS.UI._Overlay.onafterhide">
+                /// Occurs immediately after the control is hidden.
+                /// </field>
+                onafterhide: createEvent(_Overlay._Overlay.onafterHide),
 
                 _dispose: function Flyout_dispose() {
                     _Dispose.disposeSubTree(this.element);

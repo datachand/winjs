@@ -188,8 +188,8 @@
                 }
             }
             // When the AppBar is hiding or hidden, the entire invokebutton has a hover background.
-            &.win-appbar-hiding, &.win-appbar-hidden,
-            &.win-appbar-showing, &.win-appbar-shown {
+            &.win-appbar-closing, &.win-appbar-closed,
+            &.win-appbar-opening, &.win-appbar-opened {
                 button.win-appbar-invokebutton.win-appbar-invokebutton:enabled:hover:active {
                     background-color: @commandActiveBackgroundColor;
 
@@ -266,7 +266,7 @@
             }
 
             // When the AppBar is showing or shown, only the ellipsis has a hover background.*/
-            &.win-appbar-showing, &.win-appbar-shown {
+            &.win-appbar-opening, &.win-appbar-opened {
                 button.win-appbar-invokebutton:enabled:hover {
                     background-color: @commandHoverBackgroundColor;
 
@@ -276,7 +276,7 @@
                 }
             }
             // When the AppBar is hiding or hidden, the entire invokebutton has a hover background.
-            &.win-appbar-hiding, &.win-appbar-hidden {
+            &.win-appbar-closing, &.win-appbar-closed {
                 button.win-appbar-invokebutton:enabled:hover {
                     background-color: @commandHoverBackgroundColor;
 

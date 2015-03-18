@@ -233,13 +233,13 @@ module CorsicaTests {
             AppBarElement.addEventListener("commandvisibilitychanged", function () {
                 commandVisibilityChangedCount++;
             });
-            AppBar.hide();
+            AppBar.close();
             var cmd = AppBar.getCommandById("cmdA");
             cmd.hidden = true;
             LiveUnit.Assert.areEqual(true, cmd.hidden, "verify the command is now hidden");
             LiveUnit.Assert.areEqual(1, commandVisibilityChangedCount, "commandvisibilitychanged event should have been fired");
 
-            AppBar.show();
+            AppBar.open();
             var result = false;
             try {
                 cmd.hidden = false;
@@ -250,7 +250,7 @@ module CorsicaTests {
                 LiveUnit.Assert.areEqual(true, cmd.hidden, "verify that hidden property did not change");
                 LiveUnit.Assert.areEqual(true, result, "verify the hidden property throw the exception");
                 LiveUnit.Assert.areEqual(2, commandVisibilityChangedCount, "commandvisibilitychanged event should have been fired");
-                AppBar.hide();
+                AppBar.close();
                 document.body.removeChild(AppBarElement);
             }
         }

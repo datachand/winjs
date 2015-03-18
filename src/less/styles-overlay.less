@@ -247,31 +247,31 @@ AppBar
     &.win-appbar-minimal {
         min-height: 25px;
 
-        &.win-appbar-hidden .win-appbar-invokebutton .win-appbar-ellipsis {
+        &.win-appbar-closed .win-appbar-invokebutton .win-appbar-ellipsis {
             top: 5px;
         }
     }
 
-    &.win-appbar-hiding.win-appbar-minimal > :not(.win-appbar-invokebutton) {
+    &.win-appbar-closing.win-appbar-minimal > :not(.win-appbar-invokebutton) {
         opacity: 0;
     }
 
-    &.win-menulayout.win-appbar-hiding .win-appbar-menu {
+    &.win-menulayout.win-appbar-closing .win-appbar-menu {
         opacity: 1;
     }
 
-    &.win-appbar-hidden.win-appbar-minimal > :not(.win-appbar-invokebutton) {
+    &.win-appbar-closed.win-appbar-minimal > :not(.win-appbar-invokebutton) {
         display: none !important;
     }
 
-    &.win-appbar-hiding.win-appbar-minimal .win-appbar-invokebutton,
-    &.win-appbar-hidden.win-appbar-minimal .win-appbar-invokebutton {
+    &.win-appbar-closing.win-appbar-minimal .win-appbar-invokebutton,
+    &.win-appbar-closed.win-appbar-minimal .win-appbar-invokebutton {
         width: 100%;
     }
 
-    &.win-menulayout.win-appbar-showing,
-    &.win-menulayout.win-appbar-shown,
-    &.win-menulayout.win-appbar-hiding  {
+    &.win-menulayout.win-appbar-opening,
+    &.win-menulayout.win-appbar-opened,
+    &.win-menulayout.win-appbar-closing  {
         .win-appbar-invokebutton {
             visibility: hidden;
         }
@@ -361,15 +361,15 @@ AppBar commands layout
         #flex > .flex(0; 0; auto);
     }
 
-    &.win-appbar-showing,
-    &.win-appbar-shown,
-    &.win-appbar-hiding {
+    &.win-appbar-opening,
+    &.win-appbar-opened,
+    &.win-appbar-closing {
         min-height: 62px;
     }
 
-    &.win-appbar-showing.win-appbar-compact,
-    &.win-appbar-shown.win-appbar-compact,
-    &.win-appbar-hiding.win-appbar-compact {
+    &.win-appbar-opening.win-appbar-compact,
+    &.win-appbar-opened.win-appbar-compact,
+    &.win-appbar-closing.win-appbar-compact {
         min-height: 48px;
     }
 
@@ -386,15 +386,15 @@ AppBar commands layout
         }
     }
 
-    &.win-appbar-compact.win-appbar-hiding {
+    &.win-appbar-compact.win-appbar-closing {
         button.win-command .win-label {
             display: block;
             visibility: hidden;
         }
     }
 
-    &.win-appbar-compact.win-appbar-shown,
-    &.win-appbar-compact.win-appbar-showing {
+    &.win-appbar-compact.win-appbar-opened,
+    &.win-appbar-compact.win-appbar-opening {
         button.win-command .win-label {
             display: block;
             visibility: visible;
@@ -445,22 +445,22 @@ AppBar menu layout
         }
     }
 
-    &.win-appbar-compact.win-appbar-hiding,
-    &.win-appbar-compact.win-appbar-showing {
+    &.win-appbar-compact.win-appbar-closing,
+    &.win-appbar-compact.win-appbar-opening {
         button.win-command .win-label {
             display: block;
             visibility: visible;
         }
     }
 
-    &.win-appbar-compact.win-appbar-shown  {
+    &.win-appbar-compact.win-appbar-opened  {
         button.win-command .win-label {
             display: block;
             visibility: visible;
         }
     }
 
-    &.win-appbar-compact.win-appbar-hidden {
+    &.win-appbar-compact.win-appbar-closed {
         overflow: hidden;
 
         .win-toolbar-overflowarea {
@@ -511,9 +511,9 @@ High contrast AppBar needs a border
     }
 
     .win-commandlayout {
-        &.win-appbar-showing,
-        &.win-appbar-shown,
-        &.win-appbar-hiding {
+        &.win-appbar-opening,
+        &.win-appbar-opened,
+        &.win-appbar-closing {
             min-height: 62px;
         }
     }
