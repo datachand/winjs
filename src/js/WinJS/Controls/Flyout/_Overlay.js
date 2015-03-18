@@ -1200,7 +1200,7 @@ define([
                     var appBars = [];
                     for (var i = 0; i < len; i++) {
                         var appBar = elements[i].winControl;
-                        if (appBar && !appBar.sticky && !appBar.hidden) {
+                        if (appBar && !appBar.sticky && appBar.opened) {
                             appBars.push(appBar);
                         }
                     }
@@ -1445,7 +1445,7 @@ define([
                 _hideAppBars: function _Overlay_hideAppBars(bars, keyboardInvoked) {
                     var allBarsAnimationPromises = bars.map(function (bar) {
                         bar._keyboardInvoked = keyboardInvoked;
-                        bar.hide();
+                        bar.close();
                         return bar._animationPromise;
                     });
                     return Promise.join(allBarsAnimationPromises);
@@ -1455,7 +1455,7 @@ define([
                     var allBarsAnimationPromises = bars.map(function (bar) {
                         bar._keyboardInvoked = keyboardInvoked;
                         bar._doNotFocus = false;
-                        bar._show();
+                        bar._open();
                         return bar._animationPromise;
                     });
                     return Promise.join(allBarsAnimationPromises);

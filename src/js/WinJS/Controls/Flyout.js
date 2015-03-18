@@ -386,7 +386,7 @@ define([
 
                             // _isAppBarOrChild may return a CED or sentinal
                             var appBar = _Overlay._Overlay._isAppBarOrChild(this._previousFocus);
-                            if (!appBar || (appBar.winControl && !appBar.winControl.hidden && !appBar.winAnimating)) {
+                            if (!appBar || (appBar.winControl && !appBar.winControl.opened && !appBar.winAnimating)) {
                                 // Don't move focus back to a appBar that is hidden
                                 // We cannot rely on element.style.visibility because it will be visible while animating
                                 var role = this._previousFocus.getAttribute("role");
