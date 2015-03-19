@@ -232,7 +232,7 @@ module CorsicaTests {
             }
 
             function testHideCommandsAfterHide() {
-                topAppBar.removeEventListener("afterhide", testHideCommandsAfterHide, false);
+                topAppBar.removeEventListener("afterclose", testHideCommandsAfterHide, false);
                 nextTestIndex++;
                 var cmd;
                 LiveUnit.LoggingCore.logComment("AppBar.hideCommands to make room for other commands to grow to full size.");
@@ -253,7 +253,7 @@ module CorsicaTests {
             }
 
             function testShowCommandsAfterHide() {
-                topAppBar.removeEventListener("afterhide", testShowCommandsAfterHide, false);
+                topAppBar.removeEventListener("afterclose", testShowCommandsAfterHide, false);
                 nextTestIndex++;
                 var cmd;
                 LiveUnit.LoggingCore.logComment("AppBar.showCommands to force commands to shrink down");
@@ -272,7 +272,7 @@ module CorsicaTests {
             }
 
             function testShowOnlyCommandsAfterHide() {
-                topAppBar.removeEventListener("afterhide", testShowOnlyCommandsAfterHide, false);
+                topAppBar.removeEventListener("afterclose", testShowOnlyCommandsAfterHide, false);
                 nextTestIndex++;
                 var cmd;
                 LiveUnit.LoggingCore.logComment("AppBar.showOnlyCommands to make it full size");
@@ -290,8 +290,8 @@ module CorsicaTests {
             }
 
             function testComplete() {
-                topAppBar.removeEventListener("beforeshow", verifyCommandSizesAtShowTime, false);
-                topAppBar.removeEventListener("afterhide", testComplete, false);
+                topAppBar.removeEventListener("beforeopen", verifyCommandSizesAtShowTime, false);
+                topAppBar.removeEventListener("afterclose", testComplete, false);
                 complete();
             }
 
@@ -299,11 +299,11 @@ module CorsicaTests {
                 verifyCommandSizes(topAppBar.element, appBarVisibleCommandCount, appBarVisibleSeparatorCount, appBarVisibleContentWidth);
                 // Verify that AppBar scalability tracks calls to the showCommands, hideCommands,
                 // and showOnlyCommands api's while closed, and sizes the buttons correctly.
-                topAppBar.addEventListener("afterhide", testOrder[nextTestIndex], false);
+                topAppBar.addEventListener("afterclose", testOrder[nextTestIndex], false);
                 topAppBar.close();
             }
 
-            // our 'beforeshow' event listener will use these to set the correct 'afterhide' listener.
+            // our 'beforeopen' event listener will use these to set the correct 'afterclose' listener.
             var nextTestIndex = 0;
             var testOrder = [
                 testHideCommandsAfterHide,
@@ -345,10 +345,10 @@ module CorsicaTests {
 
 
             // Set up event listener to check for correct command sizes when the AppBar is opening.
-            topAppBar.addEventListener("beforeshow", verifyCommandSizesAtShowTime, false);
+            topAppBar.addEventListener("beforeopen", verifyCommandSizesAtShowTime, false);
 
             // Need to force the AppBar to measure the contentCommand we added. The AppBar does this lazily upon construction or whenever it is opened.
-            // Open the AppBar to run our 'beforeshow' handler and verify that the commands set in the constructor are scaled correctly.
+            // Open the AppBar to run our 'beforeopen' handler and verify that the commands set in the constructor are scaled correctly.
             topAppBar.open();
 
 
@@ -357,7 +357,7 @@ module CorsicaTests {
         testAppBarCommandsHiddenProperty = function (complete) {
 
             function testSettingHiddenTrue() {
-                topAppBar.removeEventListener("afterhide", testSettingHiddenTrue, false);
+                topAppBar.removeEventListener("afterclose", testSettingHiddenTrue, false);
                 nextTestIndex++;
                 var cmd;
                 LiveUnit.LoggingCore.logComment("AppBarCommand.hidden to make room for other commands to grow to full size.");
@@ -379,7 +379,7 @@ module CorsicaTests {
             }
 
             function testSettingHiddenFalse() {
-                topAppBar.removeEventListener("afterhide", testSettingHiddenFalse, false);
+                topAppBar.removeEventListener("afterclose", testSettingHiddenFalse, false);
                 nextTestIndex++;
                 var cmd;
                 // Show appbarcommands
@@ -398,19 +398,19 @@ module CorsicaTests {
             }
 
             function testComplete() {
-                topAppBar.removeEventListener("beforeshow", verifyCommandSizesAtShowTime, false);
-                topAppBar.removeEventListener("afterhide", testComplete, false);
+                topAppBar.removeEventListener("beforeopen", verifyCommandSizesAtShowTime, false);
+                topAppBar.removeEventListener("afterclose", testComplete, false);
                 complete();
             }
 
             var verifyCommandSizesAtShowTime = function verifyCommandSizesAtShowTime() {
                 verifyCommandSizes(topAppBarElem, appBarVisibleCommandCount, appBarVisibleSeparatorCount, appBarVisibleContentWidth);
 
-                topAppBar.addEventListener("afterhide", testOrder[nextTestIndex], false);
+                topAppBar.addEventListener("afterclose", testOrder[nextTestIndex], false);
                 topAppBar.close();
             }
 
-        // our 'beforeshow' event listener will use these to set the correct 'afterhide' listener.
+        // our 'beforeopen' event listener will use these to set the correct 'afterclose' listener.
         var nextTestIndex = 0;
             var testOrder = [
                 testSettingHiddenTrue,
@@ -450,10 +450,10 @@ module CorsicaTests {
             LiveUnit.LoggingCore.logComment("Top AppBar Initialized with commands");
 
             // Set up event listener to check for correct command sizes when the AppBar is opening.
-            topAppBar.addEventListener("beforeshow", verifyCommandSizesAtShowTime, false);
+            topAppBar.addEventListener("beforeopen", verifyCommandSizesAtShowTime, false);
 
             // Need to force the AppBar to measure the contentCommand we added. The AppBar does this lazily upon construction or whenever it is opened.
-            // Open the AppBar to run our 'beforeshow' handler and verify that the commands set in the constructor are scaled correctly.
+            // Open the AppBar to run our 'beforeopen' handler and verify that the commands set in the constructor are scaled correctly.
             topAppBar.open();
         };
 

@@ -153,8 +153,8 @@ module CorsicaTests {
                 LiveUnit.Assert.isTrue(typeof (AppBar[functionName]) === "function", functionName + " exists on AppBar, but it isn't a function");
             }
 
-            verifyFunction("show");
-            verifyFunction("hide");
+            verifyFunction("open");
+            verifyFunction("close");
             verifyFunction("addEventListener");
             verifyFunction("removeEventListener");
         }
@@ -380,7 +380,7 @@ module CorsicaTests {
                     appbar.close();
                     appbar.open();
 
-                    return Helper.waitForEvent(appbar, "aftershow");
+                    return Helper.waitForEvent(appbar, "afteropen");
                 }).
                 done(complete);
         };
@@ -411,7 +411,7 @@ module CorsicaTests {
             LiveUnit.LoggingCore.logComment("AppBar has been instantiated.");
             LiveUnit.Assert.isNotNull(AppBar, "AppBar element should not be null when instantiated.");
             AppBar.open();
-            _element.addEventListener('aftershow', function () {
+            _element.addEventListener('afteropen', function () {
 
                 var commandsInVisualOrder = [];
                 commandsInVisualOrder.push(AppBar.getCommandById("Button2").element);
@@ -477,7 +477,7 @@ module CorsicaTests {
                 secondCmd = cmds[1];
 
             LiveUnit.Assert.areEqual(firstCmd, document.activeElement, "The focus should be on the first AppBarCommand");
-            // Don't wait for the aftershow event to fire to perform the action
+            // Don't wait for the afteropen event to fire to perform the action
             Helper.keydown(_element, Key.rightArrow);
             LiveUnit.Assert.areEqual(secondCmd, document.activeElement, "The focus should be on the Second AppBarCommand");
             complete();
@@ -489,7 +489,7 @@ module CorsicaTests {
             LiveUnit.Assert.isNotNull(AppBar, "AppBar element should not be null when instantiated.");
             AppBar.open();
 
-            _element.addEventListener('aftershow', function () {
+            _element.addEventListener('afteropen', function () {
 
                 var commandsInVisualOrder = [];
 
@@ -560,7 +560,7 @@ module CorsicaTests {
             LiveUnit.LoggingCore.logComment("AppBar has been instantiated.");
             LiveUnit.Assert.isNotNull(AppBar, "AppBar element should not be null when instantiated.");
             AppBar.open();
-            _element.addEventListener('aftershow', function () {
+            _element.addEventListener('afteropen', function () {
                 var reachableCommandsInVisualOrder = [];
                 reachableCommandsInVisualOrder.push(AppBar.getCommandById("buttons"));
                 reachableCommandsInVisualOrder.push(AppBar.getCommandById("progress")); // progress is the first command element in DOM order.
@@ -652,7 +652,7 @@ module CorsicaTests {
             LiveUnit.LoggingCore.logComment("AppBar has been instantiated.");
             LiveUnit.Assert.isNotNull(AppBar, "AppBar element should not be null when instantiated.");
             AppBar.open();
-            _element.addEventListener('aftershow', function () {
+            _element.addEventListener('afteropen', function () {
                 var commandsInVisualOrder = [];
                 commandsInVisualOrder.push(AppBar.getCommandById("progressCmd"));
                 commandsInVisualOrder.push(AppBar.getCommandById("x8"));
@@ -698,7 +698,7 @@ module CorsicaTests {
             appBar.open();
 
             // ClickEater add/remove are high priority scheduler jobs, so we schedule an idle priority asserts
-            appBar.addEventListener("aftershow", function () {
+            appBar.addEventListener("afteropen", function () {
                 var clickEater = <HTMLElement>document.querySelector("." + WinJS.UI._Overlay._clickEatingAppBarClass);
                 LiveUnit.Assert.isTrue(clickEater);
                 LiveUnit.Assert.areNotEqual("none", clickEater.style.display);
@@ -722,11 +722,20 @@ module CorsicaTests {
             "<button data-win-control='WinJS.UI.AppBarCommand' data-win-options='{id:\"Button1\", label:\"Button 1\", type:\"button\", section:\"primary\"}'></button>" +
             "</div>";
             var outsideAppBar = root.querySelector("#outsideAppBar");
-            var appBar = new WinJS.UI.AppBar(<HTMLElement>root.querySelector("#appBar"));
+            var appBar = new PrivateAppBar(<HTMLElement>root.querySelector("#appBar"));
 
-            OverlayHelpers.Assert.dismissesWhenLosingFocus({
-                overlay: appBar,
-                focusTo: outsideAppBar
+            new WinJS.Promise(function (c) {
+                asyncOpen(appBar).then(function () {
+                    LiveUnit.Assert.isTrue(appBar.element.contains(<HTMLDivElement>document.activeElement), "Focus should initially be within the Overlay");
+                    LiveUnit.Assert.isTrue(appBar.opened, "Overlay should initially be visible");
+
+                    return Helper.focus(outsideAppBar);
+                }).then(function () {
+                        LiveUnit.Assert.areEqual(outsideAppBar, document.activeElement, "Focus should have moved outside of the Overlay");
+                        LiveUnit.Assert.isTrue(!appBar.opened, "Overlay should have hid because it lost focus");
+
+                        c();
+                    });
             }).then(complete);
         };
 
@@ -738,12 +747,24 @@ module CorsicaTests {
             "<hr data-win-control='WinJS.UI.AppBarCommand' data-win-options='{type:\"separator\", hidden: true, section:\"primary\"}' />" +
             "<button data-win-control='WinJS.UI.AppBarCommand' data-win-options='{id:\"Button1\", label:\"Button 1\", type:\"button\", section:\"primary\"}'></button>" +
             "</div>";
-            var appBar = new WinJS.UI.AppBar(<HTMLElement>root.querySelector("#appBar"));
-            OverlayHelpers.Assert.remainsVisibleWhenMovingFocusInternally({
-                overlay: appBar,
-                focusFrom: appBar.getCommandById("Button0").element,
-                focusTo: appBar.getCommandById("Button1").element
-            }).then(complete);
+            var appBar = new PrivateAppBar(<HTMLElement>root.querySelector("#appBar"));
+            
+                return new WinJS.Promise(function (c) {
+                    var focusFrom = appBar.getCommandById("Button0").element;
+                    var focusTo = appBar.getCommandById("Button1").element;
+
+                    asyncOpen(appBar).then(function () {
+                        LiveUnit.Assert.areEqual(focusFrom, document.activeElement, "Unexpected element initially has focus");
+                        LiveUnit.Assert.isFalse(!appBar.opened, "Overlay should initially be visible");
+
+                        return Helper.focus(focusTo);
+                    }).then(function () {
+                            LiveUnit.Assert.areEqual(focusTo, document.activeElement, "Expected element didn't receive focus");
+                            LiveUnit.Assert.isFalse(!appBar.opened, "Overlay should have remained visible when moving focus within it");
+
+                            c();
+                        });
+                }).then(complete);
         };
 
         testMoveFocusFromMenuToAppBar = function (complete) {
@@ -957,7 +978,7 @@ module CorsicaTests {
 
             var verifyShowing = function (evt) {
                 var appBar = evt.target.winControl;
-                appBar.removeEventListener("beforeshow", verifyShowing, false);
+                appBar.removeEventListener("beforeopen", verifyShowing, false);
 
                 msg = "AppBars that are showing should not show indications of being hidden."
             verifyHiddenIndicators(false, appBar, msg);
@@ -972,7 +993,7 @@ module CorsicaTests {
 
         var verifyShown = function (evt) {
                 var appBar = evt.target.winControl;
-                appBar.removeEventListener("aftershow", verifyShown, false);
+                appBar.removeEventListener("afteropen", verifyShown, false);
 
                 msg = "AppBars that are shown should not show indications of being hidden."
             verifyHiddenIndicators(false, appBar, msg);
@@ -990,7 +1011,7 @@ module CorsicaTests {
 
         var verifyHiding = function (evt) {
                 var appBar = evt.target.winControl;
-                appBar.removeEventListener("beforehide", verifyHiding, false);
+                appBar.removeEventListener("beforeclose", verifyHiding, false);
 
                 msg = "AppBars that are hiding should show indications of hiding."
             verifyHiddenIndicators(true, appBar, msg);
@@ -1005,7 +1026,7 @@ module CorsicaTests {
 
         var verifyHidden = function (evt) {
                 var appBar = evt.target.winControl;
-                appBar.removeEventListener("afterhide", verifyHidden, false);
+                appBar.removeEventListener("afterclose", verifyHidden, false);
 
                 msg = "AppBars that are hidden should show indications of being hidden."
             LiveUnit.LoggingCore.logComment("Test: " + msg);
@@ -1040,19 +1061,19 @@ module CorsicaTests {
             LiveUnit.Assert.areEqual(bottomInitialCDM, bottomBar.closedDisplayMode, msg);
             LiveUnit.Assert.areEqual(bottomInitialPosition, bottomBar._visiblePosition, msg);
 
-            topBar.addEventListener("beforeshow", verifyShowing, false);
-            topBar.addEventListener("aftershow", verifyShown, false);
-            topBar.addEventListener("beforehide", verifyHiding, false);
-            topBar.addEventListener("afterhide", verifyHidden, false);
-            bottomBar.addEventListener("beforeshow", verifyShowing, false);
-            bottomBar.addEventListener("aftershow", verifyShown, false);
-            bottomBar.addEventListener("beforehide", verifyHiding, false);
-            bottomBar.addEventListener("afterhide", verifyHidden, false);
+            topBar.addEventListener("beforeopen", verifyShowing, false);
+            topBar.addEventListener("afteropen", verifyShown, false);
+            topBar.addEventListener("beforeclose", verifyHiding, false);
+            topBar.addEventListener("afterclose", verifyHidden, false);
+            bottomBar.addEventListener("beforeopen", verifyShowing, false);
+            bottomBar.addEventListener("afteropen", verifyShown, false);
+            bottomBar.addEventListener("beforeclose", verifyHiding, false);
+            bottomBar.addEventListener("afterclose", verifyHidden, false);
             topBar.open();
             bottomBar.open();
 
             WinJS.Promise.join([topBarShownAndHiddenPromise, bottomBarShownAndHiddenPromise]).then(function () {
-                // Both appbars after "afterhide".
+                // Both appbars after "afterclose".
 
                 msg = "AppBar original closedDisplayModes and visible positions should not have changed after showing and hiding.";
                 LiveUnit.LoggingCore.logComment("Test: " + msg);
@@ -1844,7 +1865,7 @@ module CorsicaTests {
             var root = document.getElementById("appBarDiv");
             var appbar = new WinJS.UI.AppBar();
             root.appendChild(appbar.element);
-            appbar.addEventListener("aftershow", simulateBackClick, false);
+            appbar.addEventListener("afteropen", simulateBackClick, false);
             appbar.open();
         };
 
@@ -1887,7 +1908,7 @@ module CorsicaTests {
             var stickyBar = new WinJS.UI.AppBar(null, { sticky: true });
             root.appendChild(stickyBar.element);
 
-            stickyBar.addEventListener("aftershow", simulateBackClick, false);
+            stickyBar.addEventListener("afteropen", simulateBackClick, false);
             stickyBar.open();
         };
 
@@ -1957,7 +1978,7 @@ module CorsicaTests {
                 placement: "top",
             });
 
-            Helper.waitForEvent(appBar, "aftershow").then(function () {
+            Helper.waitForEvent(appBar, "afteropen").then(function () {
                 var toolbarEl = appBar.element.querySelector("." + Helper.ToolBar.Constants.controlCssClass);
                 var toolbar = toolbarEl.winControl;
 
